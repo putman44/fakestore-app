@@ -1,10 +1,13 @@
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { deleteProduct } from "../utils/FakeStoreAPI";
+import Button from "react-bootstrap/esm/Button";
 
 const ProductDetail = ({ products }) => {
   const { productId } = useParams();
+  const navigate = useNavigate();
   const product = products.find((product) => product.id === Number(productId));
 
   if (!product) {
@@ -23,6 +26,11 @@ const ProductDetail = ({ products }) => {
   for (let i = 1; i <= 5; i++) {
     stars.push(i <= rating ? "★" : "☆");
   }
+
+  const handleDelete = () => {
+    deleteProduct(productId);
+    navigate("/products");
+  };
 
   return (
     <Container>
@@ -43,8 +51,8 @@ const ProductDetail = ({ products }) => {
             </span>{" "}
             <span className="fs-4">({product.rating.count})</span>
           </div>
-
-          <p>{product.description}</p>
+          <p>{product.description}</p>{" "}
+          <Button onClick={handleDelete}>Delete</Button>
         </Col>
       </Row>
     </Container>
