@@ -1,32 +1,13 @@
 import { useEffect, useState } from "react";
-import { fetchProducts } from "../utils/FakeStoreAPI";
-import Button from "react-bootstrap/Button";
+import { Link, Outlet } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import styles from "./Products.module.css";
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
+const Products = ({ products, loading, error }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedProducts = await fetchProducts();
-        setProducts(fetchedProducts);
-      } catch (err) {
-        setError("Failed to load products.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const categories = products.reduce((acc, product) => {
     if (!acc.some((cat) => cat.name === product.category)) {
@@ -58,7 +39,7 @@ const Products = () => {
         style={{ height: "700px" }}
         className="d-flex justify-content-center align-items-center "
       >
-        <h1 className="font">Loading products...</h1>
+        <h1>Loading products...</h1>
       </div>
     );
   if (error)
@@ -67,7 +48,7 @@ const Products = () => {
         style={{ height: "700px" }}
         className="d-flex justify-content-center align-items-center "
       >
-        <h1 className="font">{error}</h1>
+        <h1>{error}</h1>
       </div>
     );
 
@@ -76,7 +57,7 @@ const Products = () => {
       <Row className="">
         <div className="mb-2">
           <label className="me-2" htmlFor="filter">
-            Filter by Category:{" "}
+            Filter by Category:
           </label>
           <select onChange={handleSelectCategory} name="filter" id="filter">
             <option value="All">All</option>
@@ -90,7 +71,7 @@ const Products = () => {
       </Row>
       <Row className="g-3">
         {filteredProducts.map((item) => (
-          <Col key={item.id} className="col-3">
+          <Col key={item.id} xs={6} sm={6} md={4} lg={3}>
             <Card>
               <Card.Img className={styles.img} variant="top" src={item.image} />
               <Card.Body>
@@ -99,7 +80,9 @@ const Products = () => {
                   {item.description}
                 </Card.Text>
                 <Card.Text>${item.price}</Card.Text>
-                <Button variant="primary">Details</Button>
+                <Link to={`${item.id}`} className="btn btn-primary">
+                  Details
+                </Link>
               </Card.Body>
             </Card>
           </Col>
