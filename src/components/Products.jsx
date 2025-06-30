@@ -9,6 +9,8 @@ import styles from "./Products.module.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -26,6 +28,30 @@ const Products = () => {
     fetchData();
   }, []);
 
+  const categories = products.reduce((acc, product) => {
+    if (!acc.some((cat) => cat.name === product.category)) {
+      acc.push({ id: acc.length, name: product.category });
+    }
+    return acc;
+  }, []);
+
+  const productsByCategory = products.reduce((acc, product) => {
+    if (!acc[product.category]) {
+      acc[product.category] = [];
+    }
+    acc[product.category].push(product);
+    return acc;
+  }, {});
+
+  const handleSelectCategory = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const filteredProducts =
+    selectedCategory === "All"
+      ? products
+      : productsByCategory[selectedCategory] || [];
+
   if (loading)
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-100">
@@ -41,8 +67,23 @@ const Products = () => {
 
   return (
     <Container className="mx-auto">
+      <Row className="">
+        <div className="mb-2">
+          <label className="me-2" htmlFor="filter">
+            Filter by Category:{" "}
+          </label>
+          <select onChange={handleSelectCategory} name="filter" id="filter">
+            <option value="All">All</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </Row>
       <Row className="g-3">
-        {products.map((item) => (
+        {filteredProducts.map((item) => (
           <Col key={item.id} className="col-3">
             <Card>
               <Card.Img className={styles.img} variant="top" src={item.image} />
