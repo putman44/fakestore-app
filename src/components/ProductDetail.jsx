@@ -1,11 +1,10 @@
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import { useParams, useNavigate } from "react-router-dom";
-import { deleteProduct } from "../utils/FakeStoreAPI";
+import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
-import Modal from "./Modal";
 import { useState } from "react";
+import DeleteModal from "./DeleteModal";
 
 const ProductDetail = ({ products, loading, error }) => {
   const [showModal, setShowModal] = useState(false);
@@ -74,7 +73,7 @@ const ProductDetail = ({ products, loading, error }) => {
             <span className="fs-4">({product.rating.count})</span>
           </div>
           <p>{product.description}</p>{" "}
-          <Modal
+          <DeleteModal
             productId={productId}
             showModal={showModal}
             handleCloseModal={handleCloseModal}

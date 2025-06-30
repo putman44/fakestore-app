@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { deleteProduct } from "../utils/FakeStoreAPI";
 
-const FormModal = ({ productId, showModal, handleCloseModal }) => {
+const DeleteModal = ({ productId, showModal, handleCloseModal }) => {
   const navigate = useNavigate();
   const handleDelete = () => {
     deleteProduct(productId);
@@ -29,10 +29,9 @@ const FormModal = ({ productId, showModal, handleCloseModal }) => {
             No
           </Button>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default FormModal;
+export default DeleteModal;

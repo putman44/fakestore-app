@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import UserModal from "./CreateUser";
+import { useState } from "react";
 
 const NavBar = () => {
   //     <Nav.Link as={NavLink} to="/" />
@@ -11,6 +12,8 @@ const NavBar = () => {
 
   // It’s like saying:
   // "Style it like a Bootstrap link, but behave like a React Router link."
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Navbar bg="info" variant="dark" expand="lg" className="p-3 mb-4">
@@ -26,14 +29,9 @@ const NavBar = () => {
           <Nav.Link as={NavLink} to="/products" activeclassname="active">
             Products
           </Nav.Link>
-          <NavDropdown title="Examples" id="basic-nav-dropdown">
-            <NavDropdown.Item as={NavLink} to="/user-form">
-              User Form
-            </NavDropdown.Item>
-            <NavDropdown.Item as={NavLink} to="/something-else">
-              Something Else
-            </NavDropdown.Item>
-          </NavDropdown>
+          <Nav.Link as={NavLink} to="/CreateUser" activeclassname="active">
+            Sign Up
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
