@@ -6,13 +6,17 @@ import { NavLink } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <Container className="text-center">
+    <Container
+      style={{ height: "700px" }} // or any value you want
+      className="d-flex flex-column justify-content-center
+      align-items-center text-center"
+    >
       <Row>
         <Col>
-          <h1>Products</h1>
+          <h1>FakeStore</h1>
           <p>
-            Hello, welcome to Products where you can find anything you ever
-            wanted!
+            Hello, welcome to FakeStore where you can find all the fake items
+            you crave!
           </p>
         </Col>
       </Row>

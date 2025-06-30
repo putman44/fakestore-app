@@ -54,13 +54,19 @@ const Products = () => {
 
   if (loading)
     return (
-      <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <div
+        style={{ height: "700px" }}
+        className="d-flex justify-content-center align-items-center "
+      >
         <h1 className="font">Loading products...</h1>
       </div>
     );
   if (error)
     return (
-      <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <div
+        style={{ height: "700px" }}
+        className="d-flex justify-content-center align-items-center "
+      >
         <h1 className="font">{error}</h1>
       </div>
     );

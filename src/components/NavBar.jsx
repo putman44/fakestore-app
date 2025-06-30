@@ -15,7 +15,7 @@ const NavBar = () => {
   return (
     <Navbar bg="info" variant="dark" expand="lg" className="p-3 mb-4">
       <Navbar.Brand as={NavLink} to="/">
-        JSONPlaceholder Users
+        FakeStore
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -23,8 +23,8 @@ const NavBar = () => {
           <Nav.Link as={NavLink} to="/" activeclassname="active">
             Home
           </Nav.Link>
-          <Nav.Link as={NavLink} to="/users" activeclassname="active">
-            Users
+          <Nav.Link as={NavLink} to="/products" activeclassname="active">
+            Products
           </Nav.Link>
           <NavDropdown title="Examples" id="basic-nav-dropdown">
             <NavDropdown.Item as={NavLink} to="/user-form">
