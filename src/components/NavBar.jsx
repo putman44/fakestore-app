@@ -3,8 +3,9 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import UserModal from "./CreateUser";
 import { useState } from "react";
+import Button from "react-bootstrap/esm/Button";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   //     <Nav.Link as={NavLink} to="/" />
   // You're telling React Bootstrap:
 
@@ -29,9 +30,13 @@ const NavBar = () => {
           <Nav.Link as={NavLink} to="/products" activeclassname="active">
             Products
           </Nav.Link>
-          <Nav.Link as={NavLink} to="/CreateUser" activeclassname="active">
-            Sign Up
-          </Nav.Link>
+          {!user ? (
+            <Nav.Link as={NavLink} to="/CreateUser" activeclassname="active">
+              Sign Up
+            </Nav.Link>
+          ) : (
+            <Button>Log out</Button>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

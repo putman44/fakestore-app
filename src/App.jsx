@@ -10,7 +10,6 @@ import Products from "./components/Products";
 import ProductDetail from "./components/ProductDetail";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "./utils/FakeStoreAPI";
-import UserModal from "./components/CreateUser";
 import CreateUser from "./components/CreateUser";
 
 function App() {
@@ -18,8 +17,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState({});
-
-  console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +34,7 @@ function App() {
 
   const appRouter = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
+      <Route path="/" element={<Root user={user} />}>
         <Route index element={<HomePage />} />
         <Route path="CreateUser" element={<CreateUser setUser={setUser} />} />
         <Route
