@@ -79,7 +79,7 @@ const Products = ({ products, loading, error }) => {
                 <Card.Text className={styles.description}>
                   {item.description}
                 </Card.Text>
-                <Card.Text>${item.price}</Card.Text>
+                <Card.Text>Price: ${item.price}</Card.Text>
                 <Link to={`${item.id}`} className="btn btn-primary">
                   Details
                 </Link>

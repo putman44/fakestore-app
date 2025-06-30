@@ -41,7 +41,7 @@ const ProductDetail = ({ products }) => {
             <span style={{ fontSize: "1.5rem", color: "#FFD700" }}>
               {stars.join("")}
             </span>{" "}
-            <span className="fs-5">({product.rating.count})</span>
+            <span className="fs-4">({product.rating.count})</span>
           </div>
 
           <p>{product.description}</p>
