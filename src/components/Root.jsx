@@ -2,10 +2,10 @@ import { useState } from "react";
 import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
 
-const Root = ({ user }) => {
+const Root = ({ user, setUser }) => {
   return (
     <>
-      <NavBar user={user} />
+      <NavBar user={user} setUser={setUser} />
       <Outlet />
     </>
   );

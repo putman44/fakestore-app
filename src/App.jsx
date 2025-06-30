@@ -18,6 +18,8 @@ function App() {
   const [error, setError] = useState(null);
   const [user, setUser] = useState({});
 
+  console.log(user);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,7 +36,7 @@ function App() {
 
   const appRouter = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root user={user} />}>
+      <Route path="/" element={<Root user={user} setUser={setUser} />}>
         <Route index element={<HomePage />} />
         <Route path="CreateUser" element={<CreateUser setUser={setUser} />} />
         <Route

@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import UserModal from "./CreateUser";
 import { useState } from "react";
-import Button from "react-bootstrap/esm/Button";
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, setUser }) => {
+  const navigate = useNavigate();
+
   //     <Nav.Link as={NavLink} to="/" />
   // You're telling React Bootstrap:
 
@@ -31,11 +31,21 @@ const NavBar = ({ user }) => {
             Products
           </Nav.Link>
           {!user ? (
+            // <Nav.Link as={NavLink} to='/login'>Log In</Nav.Link>
             <Nav.Link as={NavLink} to="/CreateUser" activeclassname="active">
-              Sign Up
+              Log In
             </Nav.Link>
           ) : (
-            <Button>Log out</Button>
+            <Nav.Link
+              onClick={() => {
+                setUser(null);
+                navigate("/");
+              }}
+              as={NavLink}
+              to="/"
+            >
+              Log Out
+            </Nav.Link>
           )}
         </Nav>
       </Navbar.Collapse>
