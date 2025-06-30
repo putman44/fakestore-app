@@ -42,7 +42,13 @@ function App() {
         />
         <Route
           path="products/:productId"
-          element={<ProductDetail products={products} />}
+          element={
+            <ProductDetail
+              loading={loading}
+              error={error}
+              products={products}
+            />
+          }
         />
       </Route>
     )

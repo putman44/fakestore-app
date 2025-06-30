@@ -4,12 +4,26 @@ import Row from "react-bootstrap/esm/Row";
 import { useParams, useNavigate } from "react-router-dom";
 import { deleteProduct } from "../utils/FakeStoreAPI";
 import Button from "react-bootstrap/esm/Button";
+import Modal from "./Modal";
+import { useState } from "react";
 
-const ProductDetail = ({ products }) => {
+const ProductDetail = ({ products, loading, error }) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+
   const { productId } = useParams();
-  const navigate = useNavigate();
+
   const product = products.find((product) => product.id === Number(productId));
 
+  if (loading)
+    return (
+      <div
+        style={{ height: "700px" }}
+        className="d-flex justify-content-center align-items-center "
+      >
+        <h1>Loading products...</h1>
+      </div>
+    );
   if (!product) {
     return (
       <div
@@ -20,6 +34,15 @@ const ProductDetail = ({ products }) => {
       </div>
     );
   }
+  if (error)
+    return (
+      <div
+        style={{ height: "700px" }}
+        className="d-flex justify-content-center align-items-center "
+      >
+        <h1>{error}</h1>
+      </div>
+    );
 
   const stars = [];
   const rating = Math.round(product.rating.rate);
@@ -27,9 +50,8 @@ const ProductDetail = ({ products }) => {
     stars.push(i <= rating ? "★" : "☆");
   }
 
-  const handleDelete = () => {
-    deleteProduct(productId);
-    navigate("/products");
+  const handleModal = () => {
+    setShowModal(true);
   };
 
   return (
@@ -52,7 +74,12 @@ const ProductDetail = ({ products }) => {
             <span className="fs-4">({product.rating.count})</span>
           </div>
           <p>{product.description}</p>{" "}
-          <Button onClick={handleDelete}>Delete</Button>
+          <Modal
+            productId={productId}
+            showModal={showModal}
+            handleCloseModal={handleCloseModal}
+          />
+          <Button onClick={handleModal}>Delete</Button>
         </Col>
       </Row>
     </Container>
