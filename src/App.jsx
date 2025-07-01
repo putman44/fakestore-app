@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { fetchProducts } from "./utils/FakeStoreAPI";
 import CreateUser from "./components/CreateUser";
 import Login from "./components/Login";
-import axios from "axios";
+import AddProduct from "./components/AddProduct";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -23,6 +23,7 @@ function App() {
     username: "",
     email: "",
     password: "",
+    cart: [],
   });
   const [isLoggedIn, setIsloggedIn] = useState(false);
 
@@ -42,12 +43,6 @@ function App() {
       }
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("https://fakestoreapi.com/users")
-      .then((response) => console.log(response.data));
   }, []);
 
   const appRouter = createBrowserRouter(
@@ -85,12 +80,15 @@ function App() {
           path="products/:productId"
           element={
             <ProductDetail
+              isLoggedIn={isLoggedIn}
+              setUser={setUser}
               loading={loading}
               error={error}
               products={products}
             />
           }
         />
+        <Route path="add-product" element={<AddProduct />} />
       </Route>
     )
   );

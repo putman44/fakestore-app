@@ -46,7 +46,7 @@ const Login = ({ user, setUser, setIsloggedIn, isLoggedIn }) => {
   useEffect(() => {
     if (isLoggedIn) {
       const timer = setTimeout(() => {
-        navigate("/");
+        navigate("/products");
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -104,7 +104,7 @@ const Login = ({ user, setUser, setIsloggedIn, isLoggedIn }) => {
           <Row className="">
             <Col>
               <Button variant="primary" type="submit" className="col-4">
-                Login
+                Log in
               </Button>
             </Col>
           </Row>

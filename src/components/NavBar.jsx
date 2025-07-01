@@ -28,6 +28,11 @@ const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
           <Nav.Link as={NavLink} to="/products" activeclassname="active">
             Products
           </Nav.Link>
+          {isLoggedIn && (
+            <Nav.Link as={NavLink} to="/add-product" activeclassname="active">
+              Add Product
+            </Nav.Link>
+          )}
           {isLoggedIn ? (
             <Nav.Link
               onClick={() => {
@@ -42,7 +47,7 @@ const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
             </Nav.Link>
           ) : (
             <Nav.Link as={NavLink} to="/login">
-              Log In
+              Login
             </Nav.Link>
           )}
         </Nav>
