@@ -13,6 +13,7 @@ import { fetchProducts } from "./utils/FakeStoreAPI";
 import CreateUser from "./components/CreateUser";
 import Login from "./components/Login";
 import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -80,6 +81,18 @@ function App() {
           path="products/:productId"
           element={
             <ProductDetail
+              isLoggedIn={isLoggedIn}
+              setUser={setUser}
+              loading={loading}
+              error={error}
+              products={products}
+            />
+          }
+        />
+        <Route
+          path="products/:productId/edit-product"
+          element={
+            <EditProduct
               isLoggedIn={isLoggedIn}
               setUser={setUser}
               loading={loading}

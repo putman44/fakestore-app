@@ -1,7 +1,7 @@
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import { useParams } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import { useState } from "react";
 import Modal from "./Modal";
@@ -56,79 +56,82 @@ const ProductDetail = ({ products, loading, error, setUser, isLoggedIn }) => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col className="mx-auto mb-3" xs={8} md={4}>
-          <img
-            className="w-100 p-3 border border-2 rounded"
-            src={product.image}
-            alt={product.title}
-          />
-        </Col>
-        <Col xs={12} md={8}>
-          <h2>{product.title}</h2>
-          <h4>Price: ${product.price}</h4>
-          <div>
-            <span style={{ fontSize: "1.5rem", color: "#FFD700" }}>
-              {stars.join("")}
-            </span>
-            <span className="fs-4">({product.rating.count})</span>
-          </div>
-          <p>{product.description}</p>
-          <Modal
-            message={message}
-            productId={productId}
-            showModal={showModal}
-            handleCloseModal={handleCloseModal}
-          />
-          <Row className="d-flex justify-content-between px-2">
+    <Row className="p-2 m-2">
+      <Col className="mx-auto mb-3" xs={6} md={4}>
+        <img
+          className="w-100 p-3 border border-2 rounded"
+          src={product.image}
+          alt={product.title}
+        />
+      </Col>
+      <Col className="p-2" xs={12} md={8}>
+        <h2>{product.title}</h2>
+        <h4>Price: ${product.price}</h4>
+        <div>
+          <span style={{ fontSize: "1.5rem", color: "#FFD700" }}>
+            {stars.join("")}
+          </span>
+          <span className="fs-4">({product.rating.count})</span>
+        </div>
+        <p>{product.description}</p>
+        <Modal
+          message={message}
+          productId={productId}
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+        />
+        <Row className="w-100 d-flex justify-content-between p-0 mx-auto">
+          <div className="col-4 d-flex justify-content-start gap-1 p-0">
             <Button
-              className="col-2"
+              className=" btn btn-danger text-center p-1"
               onClick={() =>
                 handleModal("Are you sure you want to delete this product?")
               }
             >
               Delete
             </Button>
-
-            <Button
-              disabled={!isLoggedIn}
-              className="col-2"
-              onClick={() => {
-                handleModal("Product added to cart");
-                setUser((prevUser) => {
-                  const existing = prevUser.cart.find(
-                    (item) => item.id === product.id
-                  );
-                  let newCart;
-                  if (existing) {
-                    newCart = prevUser.cart.map((item) =>
-                      item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                    );
-                  } else {
-                    newCart = [
-                      ...prevUser.cart,
-                      {
-                        id: product.id,
-                        title: product.title,
-                        price: product.price,
-                        image: product.image,
-                        quantity: 1,
-                      },
-                    ];
-                  }
-                  return { ...prevUser, cart: newCart };
-                });
-              }}
-            >
-              {!isLoggedIn ? "Please login" : "Add To Cart"}
+            <Button as={NavLink} to="edit-product">
+              Edit
             </Button>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+          </div>
+
+          <Button
+            disabled={!isLoggedIn}
+            className="col-4"
+            onClick={() => {
+              handleModal("Product added to cart");
+              setUser((prevUser) => {
+                const existing = prevUser.cart.find(
+                  (item) => item.id === product.id
+                );
+                let newCart;
+                if (existing) {
+                  newCart = prevUser.cart.map((item) =>
+                    item.id === product.id
+                      ? { ...item, quantity: item.quantity + 1 }
+                      : item
+                  );
+                } else {
+                  newCart = [
+                    ...prevUser.cart,
+                    {
+                      id: product.id,
+                      title: product.title,
+                      price: product.price,
+                      image: product.image,
+                      quantity: 1,
+                    },
+                  ];
+                }
+                return { ...prevUser, cart: newCart };
+              });
+            }}
+          >
+            {!isLoggedIn ? "Please login" : "Add To Cart"}
+          </Button>
+        </Row>
+      </Col>
+    </Row>
   );
 };
 
