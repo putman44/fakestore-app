@@ -32,6 +32,8 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     handleModal("Product added to cart");
     setUser((prevUser) => {
+      if (!prevUser || !prevUser.cart) return prevUser;
+
       const existing = prevUser.cart.find((item) => item.id === product.id);
       const updatedCart = existing
         ? prevUser.cart.map((item) =>
@@ -49,6 +51,7 @@ const ProductDetail = () => {
               quantity: 1,
             },
           ];
+
       return { ...prevUser, cart: updatedCart };
     });
   };

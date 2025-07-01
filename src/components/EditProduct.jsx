@@ -62,7 +62,7 @@ const EditProduct = () => {
     if (success) {
       const timer = setTimeout(() => {
         navigate(`/products/${productId}`);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [success, navigate, productId]);
