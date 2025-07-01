@@ -3,7 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { useState } from "react";
 
-const NavBar = ({ user, setUser }) => {
+const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
   const navigate = useNavigate();
 
   //     <Nav.Link as={NavLink} to="/" />
@@ -13,8 +13,6 @@ const NavBar = ({ user, setUser }) => {
 
   // It’s like saying:
   // "Style it like a Bootstrap link, but behave like a React Router link."
-
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <Navbar bg="info" variant="dark" expand="lg" className="p-3 mb-4">
@@ -30,21 +28,21 @@ const NavBar = ({ user, setUser }) => {
           <Nav.Link as={NavLink} to="/products" activeclassname="active">
             Products
           </Nav.Link>
-          {!user ? (
-            // <Nav.Link as={NavLink} to='/login'>Log In</Nav.Link>
-            <Nav.Link as={NavLink} to="/CreateUser" activeclassname="active">
-              Log In
-            </Nav.Link>
-          ) : (
+          {isLoggedIn ? (
             <Nav.Link
               onClick={() => {
-                setUser(null);
+                setIsLoggedIn(false);
+                setUser({ id: "", username: "", email: "", password: "" });
                 navigate("/");
               }}
               as={NavLink}
               to="/"
             >
               Log Out
+            </Nav.Link>
+          ) : (
+            <Nav.Link as={NavLink} to="/login">
+              Log In
             </Nav.Link>
           )}
         </Nav>

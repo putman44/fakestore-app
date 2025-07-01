@@ -90,13 +90,7 @@ const CreateUser = ({ setUser }) => {
         </Col>
       </Row>
 
-      {/* {validated && !formData.communication && (
-          <Form.Control.Feedback type="invalid" className="d-block">
-            Please select a communication method
-          </Form.Control.Feedback>
-        )} */}
-
-      <Button variant="primary" type="submit" className="mt-3">
+      <Button variant="primary" type="submit">
         Submit
       </Button>
     </Form>

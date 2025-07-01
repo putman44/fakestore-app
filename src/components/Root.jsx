@@ -1,11 +1,14 @@
-import { useState } from "react";
 import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
 
-const Root = ({ user, setUser }) => {
+const Root = ({ isLoggedIn, setIsLoggedIn, setUser }) => {
   return (
     <>
-      <NavBar user={user} setUser={setUser} />
+      <NavBar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        setUser={setUser}
+      />
       <Outlet />
     </>
   );

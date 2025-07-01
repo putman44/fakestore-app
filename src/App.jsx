@@ -11,12 +11,22 @@ import ProductDetail from "./components/ProductDetail";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "./utils/FakeStoreAPI";
 import CreateUser from "./components/CreateUser";
+import Login from "./components/Login";
+import axios from "axios";
 
 function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    id: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [isLoggedIn, setIsloggedIn] = useState(false);
+
+  // m38rmF$
 
   console.log(user);
 
@@ -34,11 +44,37 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("https://fakestoreapi.com/users")
+      .then((response) => console.log(response.data));
+  }, []);
+
   const appRouter = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root user={user} setUser={setUser} />}>
+      <Route
+        path="/"
+        element={
+          <Root
+            isLoggedIn={isLoggedIn}
+            setIsloggedIn={setIsloggedIn}
+            setUser={setUser}
+          />
+        }
+      >
         <Route index element={<HomePage />} />
         <Route path="CreateUser" element={<CreateUser setUser={setUser} />} />
+        <Route
+          path="login"
+          element={
+            <Login
+              isLoggedIn={isLoggedIn}
+              setIsloggedIn={setIsloggedIn}
+              user={user}
+              setUser={setUser}
+            />
+          }
+        />
         <Route
           path="products"
           element={
