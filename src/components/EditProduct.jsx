@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useProducts } from "../contexts/ProductContext";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -11,6 +12,7 @@ import Alert from "react-bootstrap/Alert";
 const EditProduct = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
+  const { products, loading } = useProducts(); // 👈 useContext instead of fetching
   const [form, setForm] = useState({
     title: "",
     price: "",
@@ -18,29 +20,23 @@ const EditProduct = () => {
     image: "",
     category: "",
   });
-  const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch product details
-    axios
-      .get(`https://fakestoreapi.com/products/${productId}`)
-      .then((res) => {
-        setForm({
-          title: res.data.title,
-          price: res.data.price,
-          description: res.data.description,
-          image: res.data.image,
-          category: res.data.category,
-        });
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load product.");
-        setLoading(false);
+    const product = products.find((p) => p.id === parseInt(productId));
+    if (product) {
+      setForm({
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        image: product.image,
+        category: product.category,
       });
-  }, [productId]);
+    } else if (!loading) {
+      setError("Product not found.");
+    }
+  }, [productId, products, loading]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,13 +65,13 @@ const EditProduct = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [success, navigate]);
+  }, [success, navigate, productId]);
 
   if (loading)
     return (
       <div
         style={{ height: "700px" }}
-        className="d-flex justify-content-center align-items-center "
+        className="d-flex justify-content-center align-items-center"
       >
         <h1>Loading products...</h1>
       </div>

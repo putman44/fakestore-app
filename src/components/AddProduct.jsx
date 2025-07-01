@@ -53,7 +53,7 @@ const AddProduct = () => {
     if (success) {
       const timer = setTimeout(() => {
         navigate("/products");
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [success, navigate]);
@@ -105,11 +105,12 @@ const AddProduct = () => {
         <Form.Group className="mb-3">
           <Form.Label>Image URL</Form.Label>
           <Form.Control
-            type="text"
+            type="url"
             name="image"
             value={form.image}
             onChange={handleChange}
             required
+            pattern="https?://.+"
           />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -122,8 +123,8 @@ const AddProduct = () => {
             required
           />
         </Form.Group>
-        <Button type="submit" variant="primary">
-          Add Product
+        <Button type="submit" variant="primary" disabled={!!success}>
+          {success ? "Redirecting..." : "Add Product"}
         </Button>
       </Form>
     </Container>

@@ -1,14 +1,10 @@
 import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
 
-const Root = ({ isLoggedIn, setIsLoggedIn, setUser }) => {
+const Root = () => {
   return (
     <>
-      <NavBar
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        setUser={setUser}
-      />
+      <NavBar />
       <Outlet />
     </>
   );

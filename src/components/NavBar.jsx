@@ -1,18 +1,11 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
-const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
+const NavBar = () => {
+  const { setUser, isLoggedIn, setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
-
-  //     <Nav.Link as={NavLink} to="/" />
-  // You're telling React Bootstrap:
-
-  // “Hey, instead of rendering a regular <a> tag, render this using the NavLink component from react-router-dom, but still apply Bootstrap styling like a Nav.Link.”
-
-  // It’s like saying:
-  // "Style it like a Bootstrap link, but behave like a React Router link."
 
   return (
     <Navbar bg="info" variant="dark" expand="lg" className="p-3 mb-4">
@@ -22,14 +15,26 @@ const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav>
-          <Nav.Link as={NavLink} to="/" activeclassname="active">
+          <Nav.Link
+            as={NavLink}
+            to="/"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Home
           </Nav.Link>
-          <Nav.Link as={NavLink} to="/products" activeclassname="active">
+          <Nav.Link
+            as={NavLink}
+            to="/products"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Products
           </Nav.Link>
           {isLoggedIn && (
-            <Nav.Link as={NavLink} to="/add-product" activeclassname="active">
+            <Nav.Link
+              as={NavLink}
+              to="/add-product"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               Add Product
             </Nav.Link>
           )}
@@ -46,7 +51,11 @@ const NavBar = ({ setIsLoggedIn, setUser, isLoggedIn }) => {
               Log Out
             </Nav.Link>
           ) : (
-            <Nav.Link as={NavLink} to="/login">
+            <Nav.Link
+              as={NavLink}
+              to="/login"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               Login
             </Nav.Link>
           )}

@@ -6,21 +6,19 @@ export const fetchProducts = async () => {
     return response.data;
   } catch (error) {
     console.log("Error fetching products:", error.message);
-    throw error; // <-- throw the error so the component can catch it
+    throw error; // Throw so caller can handle
   }
 };
 
 export const deleteProduct = async (productId) => {
   try {
-    const response = await axios.get(
-      `https://fakestoreapi.com/products/${productId}`,
-      {
-        method: "DELETE",
-      }
+    const response = await axios.delete(
+      `https://fakestoreapi.com/products/${productId}`
     );
-    console.log(response);
+    console.log("Deleted product:", response.data);
     return response.data;
   } catch (error) {
-    return error.message;
+    console.error("Error deleting product:", error.message);
+    throw error; // Throw to notify caller
   }
 };

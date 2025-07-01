@@ -1,52 +1,45 @@
-import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import styles from "./Products.module.css";
+import { useProducts } from "../contexts/ProductContext";
 
-const Products = ({ products, loading, error }) => {
+const Products = () => {
+  const { products, loading, error } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = products.reduce((acc, product) => {
-    if (!acc.some((cat) => cat.name === product.category)) {
-      acc.push({ id: acc.length, name: product.category });
-    }
-    return acc;
-  }, []);
+  const categories = useMemo(() => {
+    const unique = new Set(products.map((p) => p.category));
+    return ["All", ...unique];
+  }, [products]);
 
-  const productsByCategory = products.reduce((acc, product) => {
-    if (!acc[product.category]) {
-      acc[product.category] = [];
-    }
-    acc[product.category].push(product);
-    return acc;
-  }, {});
+  const filteredProducts = useMemo(() => {
+    if (selectedCategory === "All") return products;
+    return products.filter((p) => p.category === selectedCategory);
+  }, [products, selectedCategory]);
 
-  const handleSelectCategory = (event) => {
-    setSelectedCategory(event.target.value);
+  const handleSelectCategory = (e) => {
+    setSelectedCategory(e.target.value);
   };
-
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : productsByCategory[selectedCategory] || [];
 
   if (loading)
     return (
       <div
+        className="d-flex justify-content-center align-items-center"
         style={{ height: "700px" }}
-        className="d-flex justify-content-center align-items-center "
       >
         <h1>Loading products...</h1>
       </div>
     );
+
   if (error)
     return (
       <div
+        className="d-flex justify-content-center align-items-center"
         style={{ height: "700px" }}
-        className="d-flex justify-content-center align-items-center "
       >
         <h1>{error}</h1>
       </div>
@@ -54,16 +47,20 @@ const Products = ({ products, loading, error }) => {
 
   return (
     <Container className="mx-auto">
-      <Row className="">
+      <Row>
         <div className="mb-2">
-          <label className="me-2" htmlFor="filter">
+          <label htmlFor="filter" className="me-2">
             Filter by Category:
           </label>
-          <select onChange={handleSelectCategory} name="filter" id="filter">
-            <option value="All">All</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
+          <select
+            id="filter"
+            name="filter"
+            onChange={handleSelectCategory}
+            value={selectedCategory}
+          >
+            {categories.map((cat, i) => (
+              <option key={i} value={cat}>
+                {cat}
               </option>
             ))}
           </select>

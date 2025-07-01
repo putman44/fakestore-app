@@ -3,51 +3,59 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { deleteProduct } from "../utils/FakeStoreAPI";
 
-const DeleteModal = ({ message, productId, showModal, handleCloseModal }) => {
+const ConfirmationModal = ({
+  message,
+  productId,
+  showModal,
+  handleCloseModal,
+}) => {
   const navigate = useNavigate();
-  const handleDelete = () => {
-    deleteProduct(productId);
-    navigate("/products");
+
+  const handleDelete = async () => {
+    try {
+      await deleteProduct(productId);
+      navigate("/products");
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
   };
 
-  let content;
+  const isDeleteConfirm =
+    message === "Are you sure you want to delete this product?";
+  const isAddToCart = message === "Product added to cart";
 
-  if (message === "Are you sure you want to delete this product?") {
-    content = (
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{message}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="d-flex justify-content-evenly">
-          <Button className="w-25 btn btn-success" onClick={handleDelete}>
-            Yes
-          </Button>
-          <Button
-            className="w-25 btn btn-danger"
-            variant="primary"
-            onClick={handleCloseModal}
-          >
-            No
-          </Button>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-  if (message === "Product added to cart") {
-    content = (
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{message}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="d-flex justify-content-center">
+  return (
+    <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>{message}</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body className="d-flex justify-content-evenly">
+        {isDeleteConfirm && (
+          <>
+            <Button className="w-25 btn btn-success" onClick={handleDelete}>
+              Yes
+            </Button>
+            <Button className="w-25 btn btn-danger" onClick={handleCloseModal}>
+              No
+            </Button>
+          </>
+        )}
+
+        {isAddToCart && (
           <Button className="w-25 btn btn-success" onClick={handleCloseModal}>
             Close
           </Button>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-  return <>{content}</>;
+        )}
+
+        {!isDeleteConfirm && !isAddToCart && (
+          <Button className="w-25 btn btn-secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
 };
 
-export default DeleteModal;
+export default ConfirmationModal;
