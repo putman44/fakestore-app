@@ -121,18 +121,28 @@ const ProductDetail = () => {
               onClick={() =>
                 handleModal("Are you sure you want to delete this product?")
               }
+              disabled={!isLoggedIn}
             >
               Delete
             </Button>
-            <Button
-              className="align-content-center"
-              as={NavLink}
-              to="edit-product"
-            >
-              Edit
-            </Button>
+            {isLoggedIn ? (
+              <Button
+                className="align-content-center"
+                as={NavLink}
+                to="edit-product"
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                className="align-content-center"
+                variant="secondary"
+                disabled
+              >
+                Edit
+              </Button>
+            )}
           </div>
-
           <Button
             className="col-3"
             onClick={() => {
