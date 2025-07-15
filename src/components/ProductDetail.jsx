@@ -93,7 +93,7 @@ const ProductDetail = () => {
         <img
           src={product.image}
           alt={product.title}
-          className="w-100 p-3 border border-2 rounded"
+          className="w-100 p-3 border-2 rounded"
         />
       </Col>
 
